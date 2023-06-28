@@ -36,11 +36,15 @@ import dashboardRoute from "./app/dashboard/router";
 import categoryRoute from "./app/category/router";
 import nominalRoute from "./app/nominal/router";
 import voucherRoute from "./app/voucher/router";
+import bankRoute from "./app/bank/router";
+import paymentRoute from "./app/payment/router";
 
 // routing
 app.use( '/' ,dashboardRoute);
 app.use('/category' ,categoryRoute);
 app.use('/nominal' ,nominalRoute);
 app.use('/voucher' ,voucherRoute);
+app.use('/bank' ,bankRoute);
+app.use('/payment' ,paymentRoute);
 
 export default app;

@@ -1,0 +1,116 @@
+<%- include('../../partials/head.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
+include('../../partials/sidebar.ejs') %>
+
+<!--  -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Bank</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="/bank">Bank</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Form Edit Bank</h3>
+            </div>
+
+            <!-- form -->
+            <form action="/bank/edit/<%= data.bank._id %>?_method=PUT" method="post">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="name">Nama Pemilik</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Masukan Nama Pemilik"
+                    required
+                    value="<%= data.bank.name %>"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="nameBank">Nama Bank</label>
+                  <select class="select2 form-control" name="nameBank">
+                    <option value="<%= data?.bank?.nameBank%>" selected><%= data?.bank?.nameBank %></option>
+                    <% data.option.forEach((bankName, index) => { %>
+                      <% if (bankName !== data?.bank?.nameBank) { %>
+                       <option value="<%= bankName %>"><%= bankName %></option>
+                      <% } %>
+                    <% }) %>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="noRekening">No Rekening</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="noRekening"
+                    name="noRekening"
+                    placeholder="Masukan Nomor Rekening"
+                    required
+                    value="<%= data.bank.noRekening %>"
+                  />
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+
+            <!-- /form -->
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!--  -->
+
+<%- include('../../partials/footer.ejs') %> <%-
+include('../../partials/script.ejs') %>
+
+<script>
+  function readUrl(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader()
+
+      reader.onload = function (e) {
+        $('#preview').attr('src', e.target.result)
+        $('#preview').attr('width', '20%')
+        $('#preview').attr('height', '20%')
+      }
+
+      reader.readAsDataURL(input.files[0])
+    }
+  }
+
+  $('#image').change(function () {
+    readUrl(this)
+  })
+</script>

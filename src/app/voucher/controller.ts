@@ -1,6 +1,3 @@
-// import path from "path";
-// import config from "../../config/index";
-// import fs from "fs";
 import express from "express";
 
 import VoucherModel from "./model";
@@ -181,7 +178,6 @@ export const action_delete = async (
   }
 };
 
-
 // ubah status
 export const action_changeStatus = async (
   req: express.Request,
@@ -192,9 +188,9 @@ export const action_changeStatus = async (
 
     const voucher = await VoucherModel.findById(id);
 
-    let vocuherStatus = voucher?.status === 'aktif' ? 'nonaktif' : 'aktif'
+    let vocuherStatus = voucher?.status === "aktif" ? "nonaktif" : "aktif";
 
-    await voucher?.updateOne({status: vocuherStatus})
+    await voucher?.updateOne({ status: vocuherStatus });
 
     req.flash("alertMessage", "Berhasil Ubah Status Voucher");
     req.flash("alertStatus", "success");

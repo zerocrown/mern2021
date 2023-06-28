@@ -1,0 +1,36 @@
+<table id="example2" class="table table-bordered table-hover">
+  <!-- head -->
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Tipe</th>
+      <th>Bank</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach((data, index) => { %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= data.type %></td>
+      <td><%= data.type %></td>
+
+      <!-- action -->
+      <td>
+        <form action="/category/delete/<%= data._id %>?_method=DELETE" method="post">
+          <a href=<%- "/category/edit/" + data._id %> class="btn btn-warning btn-sm
+">
+            <i class="fas fa-pencil-alt"></i>
+            Edit</a
+          >
+          <button class="btn btn-danger btn-sm
+">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
