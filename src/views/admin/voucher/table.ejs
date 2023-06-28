@@ -1,0 +1,76 @@
+<table id="example2" class="table table-bordered table-hover">
+  <!-- head -->
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Kategori</th>
+      <th>Nominal</th>
+      <th>Gambar</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach((data, index) => { %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= data.name %></td>
+      <td><%= data.category?.name ?? '-' %></td>
+      <td class="d-flex flex-wrap text-lg" style="max-width: 180px; gap: 10px 15px;">
+        <% data.nominal.forEach((nominal) => { %>
+        <span class="badge badge-info d-block">
+          <%= nominal.coinName %>
+          <%= nominal.coinQuantity %>
+        </span>
+        <% }) %>
+      </td>
+      <td>
+        <% if(data.thumbnail) {
+            %>
+        <img src="<%= data.thumbnail %>" alt="-" width="60px" height="60px" class="mx-auto rounded-circle">
+        <%
+          } else { %>
+        <span>Tidak ada Gambar</span>
+        <% } %>
+      </td>
+      <td>
+        <% if(data.status === 'aktif') { %>
+        <span class="badge badge-success">Aktif</span>
+        <%} else { %>
+        <span class="badge badge-danger">Nonaktif</span>
+        <%
+          }
+           %>
+      </td>
+
+
+      <td>
+        <form action="/voucher/editstatus/<%= data._id %>?_method=PUT" method="post" class="d-inline-block">
+          <button class="btn btn-primary btn-sm" type="submit">
+            <i class="fas fa-folder"></i>
+            <% if (data.status === 'aktif') { %>
+            <span>Matikan</span>
+            <%
+              } else { %>
+            <span>Hidupkan</span>
+            <%
+              } %>
+
+          </button>
+
+        </form>
+        <form action="/voucher/delete/<%= data._id %>?_method=DELETE" method="post" class="d-inline-block">
+          <a href=<%- "/voucher/edit/" + data._id %> class="btn btn-warning btn-sm
+">
+            <i class="fas fa-pencil-alt"></i>
+            Edit</a>
+          <button class="btn btn-danger btn-sm" type="submit">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

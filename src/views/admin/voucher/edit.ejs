@@ -1,0 +1,185 @@
+<%- include('../../partials/head.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
+include('../../partials/sidebar.ejs') %>
+
+<!--  -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Voucher</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="/voucher">Voucher</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Form Edit Voucher</h3>
+            </div>
+
+            <!-- form -->
+            <form
+              action="/voucher/edit/<%= data.voucher._id %>?_method=PUT"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="name">Nama Game</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Masukan Nama Game"
+                    value="<%= data.voucher.name %>"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label>Nama kategori</label>
+                  <select
+                    name="category"
+                    class="form-control select2"
+                    style="width: 100%"
+                    required
+                  >
+                  <% if (data.voucher.category) { %>
+                    <option
+                      disabled
+                      selected
+                      value="<%= data.voucher.category._id %>"
+                    >
+                      <%= data.voucher.category.name %>
+                    </option>          
+                  <% } %>
+
+                    <% data.category.forEach((category, index) => { %>
+                    <option value="<%= category._id %>">
+                      <%= category.name %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
+
+                <div class="form-group select2-blue">
+                  <label>Nominal</label>
+                  <select
+                    name="nominal"
+                    class="form-control select2"
+                    style="width: 100%"
+                    required
+                    multiple
+                    data-placeholder="Pilih Nominal"
+                  >
+
+                  <% if (data?.voucher?.nominal) { %>
+                    <% data.voucher.nominal.forEach((nominal) => { %>
+                      <option selected value="<%= nominal._id %>">
+                        <%= nominal.coinName %> <%= nominal.coinQuantity %>  
+                      </option>
+                    <% }) %>   
+                  <% } %>
+
+                  <% if (data.nominal) { %>
+                    <% data.nominal.forEach((nom, i) => { %>
+                      <% data.voucher.nominal.forEach((vouNom) => { %>
+                        <% if (vouNom._id.toString() != nom._id.toString()) { %>
+                          <option value="<%= nom._id %>"><%= nom.coinName %> <%= nom.coinQuantity %></option>
+                        <% } %>
+                      <% }) %>
+                    <% }) %>       
+                  <% } %>
+
+
+
+                  </select>
+                </div>
+
+                <div class="form-group select2-blue">
+                  <label>Status</label>
+                  <select
+                    name="status"
+                    class="form-control select2"
+                    style="width: 100%"
+                    required
+                  >
+                    <option value="<%= data.voucher.status %>" selected><%= data.voucher.status %></option>
+                    
+                    <% if (data.voucher.status === 'nonaktif') { %>
+                      <option value="aktif">Aktif</option>
+                    <% } else {%>
+                        <option value="nonaktif">Nonaktif</option>
+                      <%} %> 
+                    
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="image">Gambar</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="image"
+                    name="image"
+                    placeholder="Masukan Gambar"
+                  />
+                  <br />
+                  <img src="<%= data.urlImage %>/<%= data.voucher.thumbnail %>" id="preview" />
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+            <!-- /form -->
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!--  -->
+
+<%- include('../../partials/footer.ejs') %> <%-
+include('../../partials/script.ejs') %>
+
+<script>
+  function readUrl(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader()
+
+      reader.onload = function (e) {
+        $('#preview').attr('src', e.target.result)
+        $('#preview').attr('width', '20%')
+        $('#preview').attr('height', '20%')
+      }
+
+      reader.readAsDataURL(input.files[0])
+    }
+  }
+
+  $('#image').change(function () {
+    readUrl(this)
+  })
+</script>
