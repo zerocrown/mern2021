@@ -5,21 +5,23 @@ import {
   index_view,
   view_create,
   action_create,
-//   view_edit,
-//   action_edit,
-//   action_delete,
+  view_edit,
+  action_edit,
+  action_delete,
+  action_changeStatus,
 } from "./controller";
 
 // views
 router.get("/", index_view);
 router.get("/create", view_create);
-// router.get("/edit/:id", view_edit);
+router.get("/edit/:id", view_edit);
 
 // // actions
 router.post("/create", action_create);
-// router.put("/edit/:id", action_edit);
-// router.delete("/delete/:id", action_delete);
+router.put("/edit/:id", action_edit);
+router.delete("/delete/:id", action_delete);
 
 // other action
+router.put("/editstatus/:id", action_changeStatus);
 
 export default router;

@@ -88,6 +88,10 @@ export const view_edit = async (
     const voucher = await VoucherModel.findById(id)
       .populate("category")
       .populate("nominal");
+    
+
+    
+  
 
     res.render("admin/voucher/edit", {
       data: {
@@ -117,7 +121,7 @@ export const action_edit = async (
     let currentImage = `${path.join(__dirname, "../../public/")}${
       voucher?.thumbnail
     }`;
-    if (fs.existsSync(currentImage)) {
+    if ( req.file && fs.existsSync(currentImage)) {
       fs.unlinkSync(currentImage);
     }
 
@@ -128,7 +132,7 @@ export const action_edit = async (
         nominal,
         name,
         status,
-        thumbnail: req.file ? `uploads/${req.file.filename}` : currentImage,
+        thumbnail: req?.file ? `uploads/${req?.file?.filename}` : voucher?.thumbnail,
       },
       {
         new: true,

@@ -16,6 +16,8 @@ export const index_view = async (
 
     const data = await PaymentModel.find().populate("bank");
 
+    console.log(data)
+
     res.render("admin/payment/view_payment", { data, Alert });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
@@ -68,74 +70,97 @@ export const action_create = async (
 
 // edit
 
-// export const view_edit = async (
-//   req: express.Request,
-//   res: express.Response
-// ) => {
-//   try {
-//     const { id } = req.params;
+export const view_edit = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
 
-//     const Payment = await PaymentModel.findById(id);
+    const bank = await BankModel.find();
+    const payment = await PaymentModel.findById(id).populate('bank');
 
-//     res.render("admin/payment/edit", {
-//       data: {
-//         Payment,
-//         option: PaymentOptions,
-//       },
-//     });
-//   } catch (error) {
-//     req.flash("alertMessage", `${error.message}`);
-//     req.flash("alertStatus", "danger");
-//     res.redirect("/payment");
-//   }
-// };
 
-// export const action_edit = async (
-//   req: express.Request,
-//   res: express.Response
-// ) => {
-//   try {
-//     const { id } = req.params;
-//     const { name, namePayment, noRekening } = req.body;
+    res.render("admin/payment/edit", {data: {bank, payment}});
+  } catch (error) {
+    req.flash("alertMessage", `${error.message}`);
+    req.flash("alertStatus", "danger");
+    res.redirect("/payment");
+  }
+};
 
-//     await PaymentModel.findByIdAndUpdate(
-//       id,
-//       { name, namePayment, noRekening },
-//       {
-//         new: true,
-//         runValidators: true,
-//       }
-//     );
+export const action_edit = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    const { bank, status, type } = req.body;
 
-//     req.flash("alertMessage", "Berhasil Edit data Payment");
-//     req.flash("alertStatus", "success");
+    await PaymentModel.findByIdAndUpdate(
+      id,
+      { bank, status, type},
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-//     res.redirect("/payment");
-//   } catch (error) {
-//     req.flash("alertMessage", `${error.message}`);
-//     req.flash("alertStatus", "danger");
-//     res.redirect("/payment");
-//   }
-// };
+    req.flash("alertMessage", "Berhasil Edit data Payment");
+    req.flash("alertStatus", "success");
+
+    res.redirect("/payment");
+  } catch (error) {
+    req.flash("alertMessage", `${error.message}`);
+    req.flash("alertStatus", "danger");
+    res.redirect("/payment");
+  }
+};
 
 // delete
 
-// export const action_delete = async (
-//   req: express.Request,
-//   res: express.Response
-// ) => {
-//   try {
-//     const { id } = req.params;
+export const action_delete = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
 
-//     await PaymentModel.findByIdAndDelete(id);
+    await PaymentModel.findByIdAndDelete(id);
 
-//     req.flash("alertMessage", "Berhasil Hapus Payment");
-//     req.flash("alertStatus", "success");
+    req.flash("alertMessage", "Berhasil Hapus Payment");
+    req.flash("alertStatus", "success");
 
-//     res.redirect("/payment");
-//   } catch (error) {
-//     req.flash("alertMessage", `${error.message}`);
-//     req.flash("alertStatus", "danger");
-//     res.redirect("/payment");
-//   }
-// };
+    res.redirect("/payment");
+  } catch (error) {
+    req.flash("alertMessage", `${error.message}`);
+    req.flash("alertStatus", "danger");
+    res.redirect("/payment");
+  }
+};
+
+
+// ubah status
+export const action_changeStatus = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+
+    const payment = await PaymentModel.findById(id);
+
+    let PaymentStatus = payment?.status === "aktif" ? "nonaktif" : "aktif";
+
+    await payment?.updateOne({ status: PaymentStatus });
+
+    req.flash("alertMessage", "Berhasil Ubah Status payment");
+    req.flash("alertStatus", "success");
+
+    res.redirect("/payment");
+  } catch (error) {
+    req.flash("alertMessage", `${error.message}`);
+    req.flash("alertStatus", "danger");
+    res.redirect("/payment");
+  }
+};

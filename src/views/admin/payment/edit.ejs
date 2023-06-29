@@ -1,7 +1,5 @@
-<%- include('../../partials/head.ejs') %> 
-<%-
-include('../../partials/navbar.ejs') %> 
-<%-
+<%- include('../../partials/head.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
 include('../../partials/sidebar.ejs') %>
 
 <!--  -->
@@ -11,12 +9,12 @@ include('../../partials/sidebar.ejs') %>
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Kategori</h1>
+          <h1>Payment</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
+            <li class="breadcrumb-item"><a href="/category">Payment</a></li>
             <li class="breadcrumb-item active">Edit</li>
           </ol>
         </div>
@@ -25,63 +23,94 @@ include('../../partials/sidebar.ejs') %>
     <!-- /.container-fluid -->
   </section>
 
-  <!-- title header -->
-<div class="content">
+  <!-- Main content -->
+  <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <!-- card title -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                          <h3 class="card-title">Ubah Kategori:  <%= data.name %> </h3>
-                    </div>
-                    
-                    <!-- form -->
-                    <section class="content">
-                        <div class="container-fluid">
-                          <div class="row">
-                            <div class="col-12">
-                              
-                              <!-- form -->
-                              <form action="/category/edit/<%= data._id %>?_method=PUT" method="post" >
-                                <div class="card-body">
-                                  <div class="form-group">
-                                    <label for="name">Masukan Nama Kategori</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="name"
-                                      value="<%= data.name  %>"
-                                      name="name"
-                                      placeholder="Masukan Nama Kategori"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="card-footer">
-                                  <button type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                              </form>
-                              <!-- /form -->
-                            </div>
-                            <!-- /.col -->
-                          </div>
-                          <!-- /.row -->
-                        </div>
-                        <!-- /.container-fluid -->
-                      </section>
-                
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Form Tambah Payment</h3>
+            </div>
+
+            <!-- form -->
+            <form action="/payment/edit/<%= data.payment._id %>?_method=PUT" method="post">
+              <div class="card-body">
+                <!--  -->
+                <div class="form-group">
+                  <label for="type">Masukan Tipe Payment</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="type"
+                    name="type"
+                    placeholder="Masukan Tipe Pembayaran"
+                    value="<%= data.payment.type %>"
+                  />
                 </div>
 
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="select2 select2-blue form-control" name="status" required style="max-width: 960px; width: 100%;">
 
-            </div>
+                    <option selected value="<%= data.payment.status %>"><%= data.payment.status %></option>
+
+                    <% if (data.payment.status === 'nonaktif' ) { %>
+                    <option value="aktif">aktif</option>
+                    <% } else { %>
+                    <option value="nonaktif">nonaktif</option>
+                    <%} %>
+
+                  </select>
+                </div>
+
+                <div class="form-group select2-blue">
+                  <label>Bank</label>
+                  <select
+                    name="bank"
+                    class="form-control select2"
+                    style="width: 100%"
+                    required
+                    multiple
+                    data-placeholder="Pilih Bank"
+                  >
+                   
+                  <% if (data?.payment) { %>
+                    <% data.bank.forEach((bank, i) => { %>
+
+                      <option value="<%= bank._id %>"
+                         <% data.payment.bank.forEach((pay) => { %>
+                            <% if (pay._id.toString() == bank._id.toString()) { %>
+                             selected
+                            <% } %>
+                         <% }) %>
+                      >
+                        <%= bank.name %>-
+                        <%= bank.nameBank %>-
+                        <%= bank.noRekening %>
+                      </option>
+
+                    <% }) %>   
+                  <% } %>
+
+
+                  </select>
+                </div>
+                <!--  -->
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+            <!-- /form -->
+          </div>
         </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
-</div>
-
-  
-
-  <!-- Main content -->
-  
+    <!-- /.container-fluid -->
+  </section>
   <!-- /.content -->
 </div>
 <!--  -->
