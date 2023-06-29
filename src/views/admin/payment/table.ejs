@@ -1,0 +1,72 @@
+<table id="example2" class="table table-bordered table-hover">
+  <!-- head -->
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Tipe</th>
+      <th>Bank</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach((data, index) => { %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= data.type %></td>
+
+      <td>
+        <% data.bank.forEach((bank) => { %>
+        <span class="font-weight-bold"><%= bank.name %> --> <%= bank.nameBank %> --> <%= bank.noRekening %></span>
+        <hr />
+        <% }) %>
+      </td>
+
+
+      <!-- status -->
+      <% if (data.status == 'aktif') { %>
+      <td>
+        <span class="badge-success badge text-md">
+          <%= data.status %>
+        </span>
+      </td>
+      <% } 
+      else { %>
+      <td>
+        <span class="badge-danger badge text-md"> <%= data.status %> </span>
+      </td>
+      <% } %>
+
+
+
+
+
+      <td>
+        <form
+          action="/payment/editstatus/<%= data._id %>?_method=PUT"
+          method="post"
+          class="d-inline-block"
+        >
+          <button class="btn btn-primary btn-sm" type="submit">
+            <i class="fas fa-folder"></i>
+            <% if (data.status === 'aktif') { %>
+            <span>Matikan</span>
+            <% } else { %>
+            <span>Hidupkan</span>
+            <% } %>
+          </button>
+        </form>
+
+        <form action="/payment/delete/<%= data._id %>?_method=DELETE" method="post" class="d-inline-block">
+          <a href="/payment/edit/<%= data._id %>" class="btn btn-warning btn-sm">
+            <i class="fas fa-pencil-alt"></i>
+            Edit</a>
+          <button class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

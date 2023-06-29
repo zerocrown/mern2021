@@ -1,6 +1,3 @@
-// import path from "path";
-// import config from "../../config/index";
-// import fs from "fs";
 import express from "express";
 
 import VoucherModel from "./model";
@@ -91,6 +88,10 @@ export const view_edit = async (
     const voucher = await VoucherModel.findById(id)
       .populate("category")
       .populate("nominal");
+    
+
+    
+  
 
     res.render("admin/voucher/edit", {
       data: {
@@ -120,7 +121,7 @@ export const action_edit = async (
     let currentImage = `${path.join(__dirname, "../../public/")}${
       voucher?.thumbnail
     }`;
-    if (fs.existsSync(currentImage)) {
+    if ( req.file && fs.existsSync(currentImage)) {
       fs.unlinkSync(currentImage);
     }
 
@@ -131,7 +132,7 @@ export const action_edit = async (
         nominal,
         name,
         status,
-        thumbnail: req.file ? `uploads/${req.file.filename}` : currentImage,
+        thumbnail: req?.file ? `uploads/${req?.file?.filename}` : voucher?.thumbnail,
       },
       {
         new: true,
@@ -181,7 +182,6 @@ export const action_delete = async (
   }
 };
 
-
 // ubah status
 export const action_changeStatus = async (
   req: express.Request,
@@ -192,9 +192,9 @@ export const action_changeStatus = async (
 
     const voucher = await VoucherModel.findById(id);
 
-    let vocuherStatus = voucher?.status === 'aktif' ? 'nonaktif' : 'aktif'
+    let vocuherStatus = voucher?.status === "aktif" ? "nonaktif" : "aktif";
 
-    await voucher?.updateOne({status: vocuherStatus})
+    await voucher?.updateOne({ status: vocuherStatus });
 
     req.flash("alertMessage", "Berhasil Ubah Status Voucher");
     req.flash("alertStatus", "success");

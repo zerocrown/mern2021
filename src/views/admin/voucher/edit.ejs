@@ -90,22 +90,24 @@ include('../../partials/sidebar.ejs') %>
                   >
 
                   <% if (data?.voucher?.nominal) { %>
-                    <% data.voucher.nominal.forEach((nominal) => { %>
-                      <option selected value="<%= nominal._id %>">
-                        <%= nominal.coinName %> <%= nominal.coinQuantity %>  
+                    <% data.nominal.forEach((nominal, i) => { %>
+
+                      <option value="<%= nominal._id %>"
+                         <% data.voucher.nominal.forEach((nom) => { %>
+                            <% if (nom._id.toString() == nominal._id.toString()) { %>
+                             selected
+                            <% } %>
+                         <% }) %>
+                      >
+                        <%= nominal.coinName %>
+                        <%= nominal.coinQuantity %>
                       </option>
+
                     <% }) %>   
                   <% } %>
 
-                  <% if (data.nominal) { %>
-                    <% data.nominal.forEach((nom, i) => { %>
-                      <% data.voucher.nominal.forEach((vouNom) => { %>
-                        <% if (vouNom._id.toString() != nom._id.toString()) { %>
-                          <option value="<%= nom._id %>"><%= nom.coinName %> <%= nom.coinQuantity %></option>
-                        <% } %>
-                      <% }) %>
-                    <% }) %>       
-                  <% } %>
+
+
 
 
 
@@ -123,9 +125,9 @@ include('../../partials/sidebar.ejs') %>
                     <option value="<%= data.voucher.status %>" selected><%= data.voucher.status %></option>
                     
                     <% if (data.voucher.status === 'nonaktif') { %>
-                      <option value="aktif">Aktif</option>
+                      <option value="aktif">aktif</option>
                     <% } else {%>
-                        <option value="nonaktif">Nonaktif</option>
+                        <option value="nonaktif">nonaktif</option>
                       <%} %> 
                     
                   </select>
@@ -139,6 +141,7 @@ include('../../partials/sidebar.ejs') %>
                     id="image"
                     name="image"
                     placeholder="Masukan Gambar"
+                    value="<%= data.urlImage %>/<%= data.voucher.thumbnail %>"
                   />
                   <br />
                   <img src="<%= data.urlImage %>/<%= data.voucher.thumbnail %>" id="preview" />

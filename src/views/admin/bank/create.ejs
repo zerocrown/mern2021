@@ -9,12 +9,12 @@ include('../../partials/sidebar.ejs') %>
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Kategori</h1>
+          <h1>Bank</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
+            <li class="breadcrumb-item"><a href="/Bank">Bank</a></li>
             <li class="breadcrumb-item active">Tambah</li>
           </ol>
         </div>
@@ -30,45 +30,48 @@ include('../../partials/sidebar.ejs') %>
         <div class="col-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Form Tambah kategori</h3>
+              <h3 class="card-title">Form Tambah Bank</h3>
             </div>
 
             <!-- form -->
-            <form action="/nominal/create" method="post">
+            <form
+              action="/bank/create"
+              method="post"
+            >
               <div class="card-body">
-                <!--  -->
                 <div class="form-group">
-                  <label>Nama Coin</label>
-                  <select
-                    name="coinName"
-                    class="form-control select2 "
-                    style="width: 100%"
-                  >
-                    <option disabled selected>Pilih Coin</option>
-                    <option value="diamond">Diamond</option>
-                    <option value="gold">Gold</option>
-                    <option value="jewel">Jewel</option>
-                    <option value="silver">Silver</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="coinQuantity">Masukan Jumlah Coin</label>
+                  <label for="name">Nama Pemilik</label>
                   <input
-                    type="number"
+                    type="text"
                     class="form-control"
-                    id="coinQuantity"
-                    name="coinQuantity"
-                    placeholder="Masukan Jumlah Coin"
+                    id="name"
+                    name="name"
+                    placeholder="Masukan Nama Pemilik"
+                    required
                   />
                 </div>
+
                 <div class="form-group">
-                  <label for="coinPrice">Masukan Harga Coin</label>
+                  <label for="nameBank">Nama Bank</label>
+                  <select class="select2 form-control" name="nameBank" required>
+                    <option value="" selected disabled>Pilih Nama Bank</option>
+                    <option value="BRI">BRI</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MANDIRI">MANDIRI</option>
+                    <option value="BNI">BNI</option>
+                    <option value="DANAMON">DANAMON</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="noRekening">No Rekening</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="coinPrice"
-                    name="coinPrice"
-                    placeholder="Masukan Harga Coin"
+                    id="noRekening"
+                    name="noRekening"
+                    placeholder="Masukan Nomor Rekening"
+                    required
                   />
                 </div>
               </div>

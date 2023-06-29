@@ -1,0 +1,119 @@
+<%- include('../../partials/head.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
+include('../../partials/sidebar.ejs') %>
+
+<!--  -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Payment</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="/category">Payment</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Form Tambah Payment</h3>
+            </div>
+
+            <!-- form -->
+            <form action="/payment/edit/<%= data.payment._id %>?_method=PUT" method="post">
+              <div class="card-body">
+                <!--  -->
+                <div class="form-group">
+                  <label for="type">Masukan Tipe Payment</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="type"
+                    name="type"
+                    placeholder="Masukan Tipe Pembayaran"
+                    value="<%= data.payment.type %>"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="select2 select2-blue form-control" name="status" required style="max-width: 960px; width: 100%;">
+
+                    <option selected value="<%= data.payment.status %>"><%= data.payment.status %></option>
+
+                    <% if (data.payment.status === 'nonaktif' ) { %>
+                    <option value="aktif">aktif</option>
+                    <% } else { %>
+                    <option value="nonaktif">nonaktif</option>
+                    <%} %>
+
+                  </select>
+                </div>
+
+                <div class="form-group select2-blue">
+                  <label>Bank</label>
+                  <select
+                    name="bank"
+                    class="form-control select2"
+                    style="width: 100%"
+                    required
+                    multiple
+                    data-placeholder="Pilih Bank"
+                  >
+                   
+                  <% if (data?.payment) { %>
+                    <% data.bank.forEach((bank, i) => { %>
+
+                      <option value="<%= bank._id %>"
+                         <% data.payment.bank.forEach((pay) => { %>
+                            <% if (pay._id.toString() == bank._id.toString()) { %>
+                             selected
+                            <% } %>
+                         <% }) %>
+                      >
+                        <%= bank.name %>-
+                        <%= bank.nameBank %>-
+                        <%= bank.noRekening %>
+                      </option>
+
+                    <% }) %>   
+                  <% } %>
+
+
+                  </select>
+                </div>
+                <!--  -->
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+            <!-- /form -->
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!--  -->
+
+<%- include('../../partials/footer.ejs') %> <%-
+include('../../partials/script.ejs') %>
