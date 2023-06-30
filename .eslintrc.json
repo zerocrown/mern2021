@@ -40,5 +40,6 @@
     "node": {
       "tryExtensions": [".js", ".json", ".node", ".ts"]
     }
-  }
+  }, 
+  "ignorePatterns":["/node_modules/"]
 }

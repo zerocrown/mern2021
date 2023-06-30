@@ -9,6 +9,10 @@ import {
   view_create,
   view_edit,
 } from "./controller";
+import { isLogin } from "../../middleware/auth";
+
+// middleware
+router.use(isLogin)
 
 // views
 router.get("/", index_view);

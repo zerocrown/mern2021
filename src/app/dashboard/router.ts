@@ -1,14 +1,13 @@
-import express from 'express'
-const router = express.Router()
+import express from "express";
+const router = express.Router();
 
+import { index } from "./controller";
 
-import {index} from './controller'
+import { isLogin, isSession } from "@src/middleware/auth";
 
+// auth
+router.use(isLogin);
 
+router.get("/", index);
 
-router.get('/', index)
-
-
-
-
-export default router
+export default router;

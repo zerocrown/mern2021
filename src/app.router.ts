@@ -5,10 +5,16 @@ import flashNotif from "connect-flash";
 import methodOverride from "method-override";
 const app = express();
 
-// setup
 
+
+// custom methods
+
+
+// setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+
 
 // middleware
 app.use(express.static(path.join(__dirname, "/public")));
@@ -37,8 +43,10 @@ import nominalRoute from "./app/nominal/router";
 import voucherRoute from "./app/voucher/router";
 import bankRoute from "./app/bank/router";
 import paymentRoute from "./app/payment/router";
+import usersRoute from "./app/users/router";
 
 // routing
+app.use("/auth", usersRoute);
 app.use("/", dashboardRoute);
 app.use("/category", categoryRoute);
 app.use("/nominal", nominalRoute);
