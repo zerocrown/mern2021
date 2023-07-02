@@ -11,9 +11,12 @@ export const index_view_signin = async (
   try {
     const alertMessage = req.flash("alertMessage");
     const alertStatus = req.flash("alertStatus");
-    const Alert = { message: alertMessage, status: alertStatus };
+    const Alert = {
+      message: alertMessage,
+      status: alertStatus,
+    };
 
-    res.render("admin/users/view_signin", { Alert });
+    res.render("admin/users/view_signin", { Alert, Title: "Halaman SignIn" });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -61,3 +64,10 @@ export const action_signin = async (
     res.redirect("/auth");
   }
 };
+
+export const action_logout = async (req: express.Request, res: express.Response) => {
+  req.session.user = null;
+  console.log('req.session.user')
+  console.log(req.session.user)
+  res.redirect('/auth');
+}

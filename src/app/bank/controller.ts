@@ -1,6 +1,6 @@
 import express from "express";
 
-import BankModel, {BankOptions} from "./model";
+import BankModel, { BankOptions } from "./model";
 
 // import config from "../../config/index";
 // import fs from "fs";
@@ -19,7 +19,12 @@ export const index_view = async (
 
     const data = await BankModel.find();
 
-    res.render("admin/bank/view_bank", { data, Alert });
+    res.render("admin/bank/view_bank", {
+      data,
+      Alert,
+      userName: req.session.user.name,
+      Title: "Halaman Bank",
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -33,7 +38,10 @@ export const view_create = async (
   res: express.Response
 ) => {
   try {
-    res.render("admin/bank/create");
+    res.render("admin/bank/create", {
+      Title: "Halaman Tambah Bank",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -82,6 +90,8 @@ export const view_edit = async (
         bank,
         option: BankOptions,
       },
+      userName: req.session.user.name,
+      Title: "Halaman Edit Bank",
     });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);

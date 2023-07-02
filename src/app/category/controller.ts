@@ -14,9 +14,13 @@ export const index_view = async (
     const alertStatus = req.flash("alertStatus");
 
     const Alert = { message: alertMessage, status: alertStatus };
-    console.log({Alert})
 
-    res.render("admin/category/view_category", { data, Alert });
+    res.render("admin/category/view_category", {
+      data,
+      Alert,
+      userName: req.session.user.name,
+      Title: "Halaman Category",
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -30,7 +34,10 @@ export const view_create = async (
   res: express.Response
 ) => {
   try {
-    res.render("admin/category/create");
+    res.render("admin/category/create", {
+      Title: "Halaman Tambah Category",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -45,17 +52,16 @@ export const action_create = async (
   try {
     const { name } = req.body;
 
-    const alertMessage = req.flash('alertMessage', 'Berhasil Tambah Kategori');
-    const alertStatus = req.flash('alertStatus', 'success');
-
+    const alertMessage = req.flash("alertMessage", "Berhasil Tambah Kategori");
+    const alertStatus = req.flash("alertStatus", "success");
 
     const category = await CategoryModel.create({ name });
     await category.save();
 
-    const Alert = {message: alertMessage, status: alertStatus}
-    console.log({Alert})
+    const Alert = { message: alertMessage, status: alertStatus };
+    console.log({ Alert });
 
-    res.redirect("/category",);
+    res.redirect("/category");
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -73,7 +79,11 @@ export const view_edit = async (
 
     const category = await CategoryModel.findById(id);
 
-    res.render("admin/category/edit", { data: category });
+    res.render("admin/category/edit", {
+      data: category,
+      Title: "Halaman Edit Category",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -98,10 +108,10 @@ export const action_edit = async (
       }
     );
 
-    const alertMessage = req.flash('alertMessage', 'Berhasil Ubah Kategori');
-    const alertStatus = req.flash('alertStatus', 'success');
+    const alertMessage = req.flash("alertMessage", "Berhasil Ubah Kategori");
+    const alertStatus = req.flash("alertStatus", "success");
 
-    const Alert = {message: alertMessage, status: alertStatus}
+    const Alert = { message: alertMessage, status: alertStatus };
 
     res.redirect("/category");
   } catch (error) {
@@ -122,8 +132,8 @@ export const action_delete = async (
 
     await CategoryModel.findByIdAndDelete(id);
 
-    const alertMessage = req.flash("alertMessage", 'Berhasil Delete Kategori');
-    const alertStatus = req.flash("alertStatus", 'success');
+    const alertMessage = req.flash("alertMessage", "Berhasil Delete Kategori");
+    const alertStatus = req.flash("alertStatus", "success");
 
     const Alert = { message: alertMessage, status: alertStatus };
 

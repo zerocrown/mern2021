@@ -15,7 +15,12 @@ export const index_view = async (
 
     const data = await NominalModel.find();
 
-    res.render("admin/nominal/view_nominal", { data, Alert });
+    res.render("admin/nominal/view_nominal", {
+      data,
+      Alert,
+      Title: "Halaman Nominal",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -29,7 +34,10 @@ export const view_create = async (
   res: express.Response
 ) => {
   try {
-    res.render("admin/nominal/create");
+    res.render("admin/nominal/create", {
+      Title: "Halaman Tambah Nominal",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -43,18 +51,16 @@ export const action_create = async (
 ) => {
   try {
     const { coinName, coinQuantity, coinPrice } = req.body;
-
-    const alertMessage = req.flash("alertMessage", "Berhasil Tambah Nominal");
-    const alertStatus = req.flash("alertStatus", "success");
-
+    
     const Nominal = await NominalModel.create({
       coinName,
       coinQuantity,
       price: coinPrice,
     });
     await Nominal.save();
-
-    const Alert = { message: alertMessage, status: alertStatus };
+    
+    req.flash("alertMessage", "Berhasil Tambah Nominal");
+    req.flash("alertStatus", "success");
 
     res.redirect("/nominal");
   } catch (error) {
@@ -75,7 +81,11 @@ export const view_edit = async (
 
     const nominal = await NominalModel.findById(id);
 
-    res.render("admin/nominal/edit", { data: nominal });
+    res.render("admin/nominal/edit", {
+      data: nominal,
+      Title: "Halaman Edit Nominal",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -100,10 +110,8 @@ export const action_edit = async (
       runValidators: true,
     })
 
-    const alertMessage = req.flash("alertMessage", "Berhasil Ubah Data Nominal");
-    const alertStatus = req.flash("alertStatus", "success");
-
-    const Alert = { message: alertMessage, status: alertStatus };
+    req.flash("alertMessage", "Berhasil Ubah Data Nominal");
+    req.flash("alertStatus", "success");
 
     res.redirect("/nominal");
   } catch (error) {
