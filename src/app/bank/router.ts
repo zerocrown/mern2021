@@ -10,6 +10,10 @@ import {
   action_delete,
 } from "./controller";
 
+import { isLogin, isSession } from "@src/middleware/auth";
+// auth
+router.use(isLogin);
+
 // views
 router.get("/", index_view);
 router.get("/create", view_create);

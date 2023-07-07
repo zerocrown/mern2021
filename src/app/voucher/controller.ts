@@ -16,13 +16,21 @@ export const index_view = async (
     const alertMessage = req.flash("alertMessage");
     const alertStatus = req.flash("alertStatus");
 
-    const Alert = { message: alertMessage, status: alertStatus };
+    const Alert = {
+      message: alertMessage,
+      status: alertStatus,
+    };
 
     const data = await VoucherModel.find()
       .populate("category")
       .populate("nominal");
 
-    res.render("admin/voucher/view_voucher", { data, Alert });
+    res.render("admin/voucher/view_voucher", {
+      data,
+      Alert,
+      Title: "Halaman Voucher",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -39,7 +47,11 @@ export const view_create = async (
     const category = await CategoryModel.find();
     const nominal = await NominalModel.find();
 
-    res.render("admin/voucher/create", { data: { category, nominal } });
+    res.render("admin/voucher/create", {
+      data: { category, nominal },
+      Title: "Halaman Tambah Voucher",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -100,6 +112,8 @@ export const view_edit = async (
         nominal,
         urlImage: config.urlImage,
       },
+      Title: "Halaman Edit Voucher",
+      userName: req.session.user.name,
     });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);

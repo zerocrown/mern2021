@@ -16,9 +16,12 @@ export const index_view = async (
 
     const data = await PaymentModel.find().populate("bank");
 
-    console.log(data)
-
-    res.render("admin/payment/view_payment", { data, Alert });
+    res.render("admin/payment/view_payment", {
+      data,
+      Alert,
+      Title: "Halaman Pembayaran",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -35,7 +38,11 @@ export const view_create = async (
     const bank = await BankModel.find();
     // const payment = await PaymentModel.find();
 
-    res.render("admin/payment/create", { data: { bank } });
+    res.render("admin/payment/create", {
+      data: { bank },
+      Title: "Halaman Tambah Pembayaran",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -78,10 +85,13 @@ export const view_edit = async (
     const { id } = req.params;
 
     const bank = await BankModel.find();
-    const payment = await PaymentModel.findById(id).populate('bank');
+    const payment = await PaymentModel.findById(id).populate("bank");
 
-
-    res.render("admin/payment/edit", {data: {bank, payment}});
+    res.render("admin/payment/edit", {
+      data: { bank, payment },
+      Title: "Halaman Edit Pembayaran",
+      userName: req.session.user.name,
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -99,7 +109,7 @@ export const action_edit = async (
 
     await PaymentModel.findByIdAndUpdate(
       id,
-      { bank, status, type},
+      { bank, status, type },
       {
         new: true,
         runValidators: true,
@@ -138,7 +148,6 @@ export const action_delete = async (
     res.redirect("/payment");
   }
 };
-
 
 // ubah status
 export const action_changeStatus = async (
