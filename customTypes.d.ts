@@ -12,6 +12,8 @@ declare module "express-session" {
 declare module "express-serve-static-core" {
   interface Request {
     session: session.SessionData;
+    player: any;
+    token: string;
   }
   interface Response {
     testing(e?: string): any
