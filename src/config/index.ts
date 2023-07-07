@@ -2,7 +2,7 @@
 import { config } from "dotenv";
 import path from "path";
 
-config({ path: path.resolve(__dirname, "../../env/development.env") })
+config({ path: path.resolve(__dirname, "../../env/production.env") })
 
 export = {
   // rootPath: path.resolve(__dirname, '..'),

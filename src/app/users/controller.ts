@@ -71,3 +71,6 @@ export const action_logout = async (req: express.Request, res: express.Response)
   console.log(req.session.user)
   res.redirect('/auth');
 }
+
+
+// nanti jgn lupa buat create users untuk Admin nya
