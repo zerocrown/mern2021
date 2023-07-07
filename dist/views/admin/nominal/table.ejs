@@ -1,0 +1,36 @@
+<table id="example2" class="table table-bordered table-hover">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Jenis Coin</th>
+        <th>Harga</th>
+        <th>Jumlah Coin</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach((data, index) => { %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= data.coinName %></td>
+        <td>Rp <%= data.price %></td>
+        <td><%= data.coinQuantity %>  <%= data.coinName %></td>
+        <td>
+          <form action="/nominal/delete/<%= data._id %>?_method=DELETE" method="post">
+            <a href=<%- "/nominal/edit/" + data._id %> class="btn btn-warning btn-sm
+">
+              <i class="fas fa-pencil-alt btn-sm
+"></i>
+              Edit</a
+            >
+            <button class="btn btn-danger" type="submit">
+              <i class="fas fa-trash"></i> Hapus
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  
